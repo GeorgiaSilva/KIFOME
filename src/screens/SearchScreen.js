@@ -14,7 +14,9 @@ const SearchScreen = ({}) =>{
     }
 
     return <>
-        <SearchBar 
+        
+        <SearchBar
+ 
             term={term} 
             onTermChange={newTerm => setTerm(newTerm)}
             onTermSubmit={()=>searchApi(term)}
@@ -22,6 +24,7 @@ const SearchScreen = ({}) =>{
         {erro ? <Text> {erro} </Text> : null}
         
         <ScrollView>
+            
             <ResultsList 
                 results={filterResultsByPrice('$')} 
                 title="Cost Effective" 
@@ -34,10 +37,7 @@ const SearchScreen = ({}) =>{
                 results={filterResultsByPrice('$$$')} 
                 title="Big Spender" 
             />
-            <ResultsList 
-                results={filterResultsByPrice('$$$$')} 
-                title="Bankrupt Spender" 
-            />
+            
         </ScrollView>
     </>
 }

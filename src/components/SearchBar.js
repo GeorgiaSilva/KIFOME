@@ -22,22 +22,24 @@ const styles = StyleSheet.create({
     background:{
         marginTop:15,
         backgroundColor: '#E5E4E2',
-        height:50,
-        borderRadius: 5,
+        height:40,
+        borderRadius: 10,
         marginHorizontal:15,
         flexDirection: 'row',
         marginBottom: 10,
       
     },
     inputStyle: {
+ 
         fontSize: 18,
         flex: 1
 
     },
     iconStyle: {
-        fontSize: 35,
+        fontSize: 30,
         alignSelf: 'center',
-        marginHorizontal: 15
+        marginHorizontal: 15,
+        color: '#2C7D09'
     }
 })
 export default SearchBar
