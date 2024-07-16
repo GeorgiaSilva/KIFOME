@@ -17,7 +17,7 @@ const ResultsShowScreen = ({navigation}) => {
         getResult(id)
 
     },[])
-  
+    console.log(result)
     if(!result){
         return null
     }
@@ -32,18 +32,24 @@ const ResultsShowScreen = ({navigation}) => {
         
         
         <Text style={styles.title}>{result.name}</Text>
-        <View style={{flexDirection:'row', justifyContent: 'center'}}> 
-            <View style={styles.rating}>
-                <FontAwesome name="star" size={18} color='#FFCF26'/>
-                <Text>{result.rating}</Text>
+        <View style={{flexDirection:'row', justifyContent: 'center', paddingBottom:20}}> 
+            <View style={styles.greenBackground}>
+                <FontAwesome name="star" size={20} color='#FFCF26'/>
+                <Text style={{fontSize: 18, paddingLeft: 2}}>{result.rating}</Text>
             </View>
-            {result.hours[0].is_open_now ? <Text>Aberto</Text> : <Text>Fechado</Text>}
+            {result.hours[0].is_open_now ? <Text style={styles.greenBackground}>Aberto</Text> : <Text style={styles.redBackground}>Fechado</Text>}
         </View>
             
-            
+        <View style={{flexDirection: "row", paddingBottom:5}}>
+            <FontAwesome name="phone" size={26} color='#2C7D09'/>
+            <Text style={styles.text}>{result.display_phone}</Text>
+        </View>   
+
+        <View style={{flexDirection: "row", paddingBottom:20}}>
+            <FontAwesome name="map-marker" size={26} color={'#2C7D09'} />
+            <Text style={styles.text}>{result.location.address1}</Text>
+        </View>
         
-        <Text>{result.display_phone}</Text>
-        <Text>{result.location.address1}</Text>
 
         <FlatList
         horizontal
@@ -61,8 +67,8 @@ const ResultsShowScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     images:{
-        height:200,
-        width: 300
+        height:250,
+        width: 350
     },
     image:{
       
@@ -78,29 +84,53 @@ const styles = StyleSheet.create({
         color:'#2C7D09'
     },
     button:{
+        marginTop:10,
+        marginBottom: -60,
         marginLeft: 5 ,
         width:50,
         height:50,
         backgroundColor: '#E1F8D9',
         zIndex: 2,
-        borderRadius: 30,
+        borderRadius: 10,
         alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'center'
         
     },
+    text:{
+        fontSize: 18,
+        paddingLeft:10
+    },
     icon:{
         fontSize: 30,
         color:'#2C7D09'
     },
-    rating:{
-        width: 60,
+    greenBackground:{
+        fontSize:20,
+        marginHorizontal: 5,
         flexDirection:'row', 
         justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#E1F8D9',
-        padding: 5,
-        borderRadius:10
-    }
+        paddingHorizontal:10,
+        paddingVertical:5,
+        borderRadius:10,
+        color:'#2C7D09',
+        fontWeight: '500'
+       
+    },
+    redBackground:{
+   
+        marginHorizontal: 5,
+        flexDirection:'row', 
+        justifyContent: 'center',
+        backgroundColor: '#F8DAD9',
+        paddingHorizontal: 10,
+        paddingVertical:5,
+        borderRadius:10,
+        color:'#7D0909',
+        fontWeight: '500',
+    },
     
 })
 

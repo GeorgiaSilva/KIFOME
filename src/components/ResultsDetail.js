@@ -2,6 +2,7 @@ import react from "react";
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 
 const ResultsDetail = ({result}) => {
+    
     return <View style={styles.container}>
         <View style={[styles.card,styles.shadowProp]}>
             <Image style={styles.image} source={{uri: result.image_url}}/>
