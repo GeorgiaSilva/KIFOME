@@ -1,14 +1,15 @@
 import React, {useState} from "react";
-import { View, Text, StyleSheet, ScrollView, Image, FlatList} from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, FlatList, TouchableOpacity} from "react-native";
 import SearchBar from "../components/SearchBar";
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultsList";
+import {FontAwesome5} from '@expo/vector-icons'
 
 
 //GEORGIA TIRE ISSO DAQUI VIU?????????????????????????????? NÃO ESQUEÇA
 
 import { FontAwesome6 } from '@expo/vector-icons';
-
+const gap = 20
 
 const SearchScreen = ({}) =>{
     const [term,setTerm] = useState('')
@@ -21,17 +22,22 @@ const SearchScreen = ({}) =>{
     }
 
     const data = [
-        { id: '1', title: 'PIZZA' },
-        { id: '2', title: 'HAMBUGUER' },
-        { id: '3', title: 'PEIXE' },
-        { id: '4', title: 'FRANGO' },
-        { id: '5', title: 'REFRI' },
+        { id: '1', title: 'Pizza' , icon: "pizza-slice"},
+        { id: '2', title: 'Hamburger', icon: "hamburger" },
+        { id: '3', title: 'Peixe', icon: "fish" },
+        { id: '4', title: 'Frango',icon: "drumstick-bite" },
+        { id: '5', title: 'Bebidas', icon: "gulp" },
       ];
       
       const renderItem = ({ item }) => (
-        <View style={{ padding: 10 }}>
-          <Text>{item.title}</Text>
-        </View>
+        <TouchableOpacity onPress={() => {
+            setTerm(item.title)
+            searchApi(term)
+            }}>
+            <View style={styles.icons}>
+            <FontAwesome5 name={item.icon} color="white" size={30}/>
+            </View>
+        </TouchableOpacity>
       );
 
     return <>
@@ -49,16 +55,21 @@ const SearchScreen = ({}) =>{
         />
         {erro ? <Text> {erro} </Text> : null}
 
+    
+        <ScrollView>
+        <View style={styles.iconsDiv}>
 
-   
-        <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={item => item.id}
-    />
+            <FlatList
+                horizontal
+                data={data}
+                contentContainerStyle={{gap}}
+                
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+            />
+        </View>
 
       
-        <ScrollView>
             
             <ResultsList 
                 results={filterResultsByPrice('$')} 
@@ -78,7 +89,24 @@ const SearchScreen = ({}) =>{
 }
 
 const styles = StyleSheet.create({
+    icons: {
+        borderColor: 'black',
+        
+        width: 60,
+        height:60,
+        borderRadius: 40,
+        backgroundColor: 'green',
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+        
+    },
+    iconsDiv: {
 
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+        
+    }
 })
 export default SearchScreen
 

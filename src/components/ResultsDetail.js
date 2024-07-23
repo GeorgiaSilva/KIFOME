@@ -5,7 +5,10 @@ const ResultsDetail = ({result}) => {
     
     return <View style={styles.container}>
         <View style={[styles.card,styles.shadowProp]}>
-            <Image style={styles.image} source={{uri: result.image_url}}/>
+            {result.image_url =="" 
+            ? <Text>oi</Text> 
+            : <Image style={styles.image} source={{uri: result.image_url}}/>}
+            
             <Text style={styles.title}>{result.name}</Text>
             <Text > {result.rating} Stars</Text>
         </View>
