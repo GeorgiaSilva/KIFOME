@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import yelp from "../api/yelp";
 
-
+drawer
 
 export default () => {
     const [results,setResults] = useState([])
@@ -12,7 +12,7 @@ export default () => {
             
         const response = await yelp.get('/search',{
             params: {
-                limit:50,
+                limit:20,
                 term: searchTerm,
                 location:'sao paulo'
             }
@@ -20,7 +20,8 @@ export default () => {
         })
         setResults(response.data.businesses)
         } catch(err) {
-            setErro('algo deu errado')
+            console.log(err)
+            setErro('algo deu errado com a api',err)
         }
     }
     useEffect(()=> {
