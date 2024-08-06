@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import yelp from "../api/yelp";
 
-drawer
 
 export default () => {
     const [results,setResults] = useState([])

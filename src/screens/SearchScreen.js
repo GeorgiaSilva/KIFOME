@@ -6,9 +6,8 @@ import ResultsList from "../components/ResultsList";
 import {FontAwesome5} from '@expo/vector-icons'
 
 
-//GEORGIA TIRE ISSO DAQUI VIU?????????????????????????????? NÃO ESQUEÇA
 
-import { FontAwesome6 } from '@expo/vector-icons';
+
 const gap = 20
 
 const SearchScreen = ({}) =>{

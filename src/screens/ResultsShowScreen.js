@@ -1,69 +1,79 @@
-import react, {useState, useEffect} from "react";
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import yelp from "../api/yelp";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome } from '@expo/vector-icons';
-const ResultsShowScreen = ({navigation}) => {
-    const [result, setResult] = useState(null)
-    const id = navigation.getParam('id')
-   
-    const getResult = async (id) => {
-        
-        const response = await yelp.get(`/${id}`)
-        setResult(response.data)
-    }
+import yelp from '../api/yelp';
 
-    useEffect(()=> {
-        getResult(id)
+const ResultsShowScreen = () => {
+  const [result, setResult] = useState(null);
+  const [comments, setComments] = useState([]);
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { id } = route.params; // Acessa o parâmetro aqui
 
-    },[])
-    console.log(result)
-    if(!result){
-        return null
-    }
-    return <SafeAreaView>
-        <View style={styles.container}>
+  const getResult = async (id) => {
+    const response = await yelp.get(`/${id}`);
+    setResult(response.data);
+  };
 
-            <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Search')}>
-            <FontAwesome name="chevron-left" style={styles.icon} />
-            </TouchableOpacity>
-            <Image style={styles.image} source={{uri: result.image_url}}/>
+  const getComments = async () => {
+    const commentsResponse = await yelp.get(`/${id}/reviews`);
+    setComments(commentsResponse.data.reviews);
+  };
+
+  useEffect(() => {
+    getResult(id);
+    getComments(id);
+  }, [id]);
+
+  if (!result) {
+    return null;
+  }
+
+  return (
+    <SafeAreaView>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Search')}>
+          <FontAwesome name="chevron-left" style={styles.icon} />
+        </TouchableOpacity>
+        <Image style={styles.image} source={{ uri: result.image_url }} />
+      </View>
+
+      <Text style={styles.title}>{result.name}</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 20 }}>
+        <View style={styles.greenBackground}>
+          <FontAwesome name="star" size={20} color='#FFCF26' />
+          <Text style={{ fontSize: 18, paddingLeft: 2 }}>{result.rating}</Text>
         </View>
-        
-        
-        <Text style={styles.title}>{result.name}</Text>
-        <View style={{flexDirection:'row', justifyContent: 'center', paddingBottom:20}}> 
-            <View style={styles.greenBackground}>
-                <FontAwesome name="star" size={20} color='#FFCF26'/>
-                <Text style={{fontSize: 18, paddingLeft: 2}}>{result.rating}</Text>
-            </View>
-            {result.hours[0].is_open_now ? <Text style={styles.greenBackground}>Aberto</Text> : <Text style={styles.redBackground}>Fechado</Text>}
-        </View>
-            
-        <View style={{flexDirection: "row", paddingBottom:5}}>
-            <FontAwesome name="phone" size={26} color='#2C7D09'/>
-            <Text style={styles.text}>{result.display_phone}</Text>
-        </View>   
+        {result.hours[0].is_open_now ? (
+          <Text style={styles.greenBackground}>Aberto</Text>
+        ) : (
+          <Text style={styles.redBackground}>Fechado</Text>
+        )}
+      </View>
 
-        <View style={{flexDirection: "row", paddingBottom:20}}>
-            <FontAwesome name="map-marker" size={26} color={'#2C7D09'} />
-            <Text style={styles.text}>{result.location.address1}</Text>
-        </View>
-        
+      <View style={{ flexDirection: "row", paddingBottom: 5 }}>
+        <FontAwesome name="phone" size={26} color='#2C7D09' />
+        <Text style={styles.text}>{result.display_phone}</Text>
+      </View>
 
-        <FlatList
+      <View style={{ flexDirection: "row", paddingBottom: 20 }}>
+        <FontAwesome name="map-marker" size={26} color='#2C7D09' />
+        <Text style={styles.text}>{result.location.address1}</Text>
+      </View>
+
+      <FlatList
         horizontal
-            data={result.photos}
-            keyExtractor= {(photo) => photo}
-            renderItem={({item}) => {
-                return <Image style={styles.images} source={{uri: item}}/>
-
-            }}
-        />
-        
-    
+        data={result.photos}
+        keyExtractor={(photo) => photo}
+        renderItem={({ item }) => {
+          return <Image style={styles.images} source={{ uri: item }} />;
+        }}
+      />
     </SafeAreaView>
-}
+  );
+};
 
 const styles = StyleSheet.create({
     images:{
@@ -143,3 +153,5 @@ ResultsShowScreen.navigationOptions = () => {
     } 
 
 }
+
+
